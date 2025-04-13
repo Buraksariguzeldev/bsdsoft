@@ -25,6 +25,43 @@ include 'satis_tag.php';
     font-size: 0.9rem; 
 }
 
+    /* Kasa Seçimi için Stil */
+    .sepet-ozeti {
+        background-color: #f8f9fa;
+        border: 1px solid #dee2e6;
+        border-radius: 0.375rem;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+    }
+    .sepet-ozeti h4 {
+        border-bottom: 1px solid #ced4da;
+        padding-bottom: 0.75rem;
+        margin-bottom: 1rem;
+    }
+    .sepet-listesi {
+        max-height: 250px;
+        overflow-y: auto;
+        margin-bottom: 1rem;
+    }
+    .sepet-listesi .list-group-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+    }
+    .toplam-tutar {
+        font-size: 1.2rem;
+        font-weight: bold;
+        text-align: right;
+        margin-top: 1rem;
+        border-top: 1px solid #ced4da;
+        padding-top: 0.75rem;
+    }
+    .kasa-secimi-formu .btn {
+        margin-bottom: 0.5rem; /* Butonlar arası boşluk */
+    }
+
 </style>
 <div id="cash-register-info" class="container mt-3">
     <div id="kasa-buttons" class="kasa-btn-group">
@@ -78,6 +115,89 @@ include 'satis_tag.php';
       <?php include $_SERVER["DOCUMENT_ROOT"] . "/assets/src/code/tutar.php"; ?>
 
       <hr>
+      
+      <?php
+      
+      // Kasa Seçimi Kısmı
+      
+      // Sepeti al
+      $sepet = isset($_SESSION['sepet']) ? $_SESSION['sepet'] : [];
+      $toplam_tutar = 0;
+      
+      // Sepet boşsa veya geçerli değilse
+      if (empty($sepet) || !is_array($sepet)) {
+          echo '<p class="alert alert-warning">Sepetiniz boş. Lütfen ürün ekleyin.</p>';
+      } else {
+          // Toplam tutarı hesapla
+          foreach ($sepet as $urun_id => $urun_detay) {
+              if (isset($urun_detay['fiyat']) && isset($urun_detay['miktar'])) {
+                  $toplam_tutar += $urun_detay['fiyat'] * $urun_detay['miktar'];
+              }
+          }
+          
+          // Kasaları veritabanından çek
+          $kasalar = [];
+          try {
+              $stmt = $vt->query("SELECT id, register_name FROM cash_registers WHERE status = 1 ORDER BY register_name");
+              $kasalar = $stmt->fetchAll(PDO::FETCH_ASSOC);
+          } catch (PDOException $e) {
+              error_log("Kasa seçimi - Kasa listesi alınamadı: " . $e->getMessage());
+              echo '<p class="alert alert-danger">Kasalar yüklenirken bir hata oluştu.</p>';
+          }
+          
+          // Kasa seçimi form gönderildiğinde
+          if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['kasa_id'])) {
+              $secilen_kasa_id = intval($_POST['kasa_id']);
+              
+              // Seçilen kasanın geçerli olup olmadığını kontrol et
+              $kasa_gecerli = false;
+              foreach ($kasalar as $kasa) {
+                  if ($kasa['id'] == $secilen_kasa_id) {
+                      $kasa_gecerli = true;
+                      break;
+                  }
+              }
+              
+              if ($kasa_gecerli) {
+                  $_SESSION['secilen_kasa_id'] = $secilen_kasa_id;
+                  // Kasa seçildikten sonra satışı tamamlama sayfasına yönlendir
+                  header('Location: satisi_tamamla.php');
+                  exit;
+              } else {
+                  echo '<p class="alert alert-danger">Geçersiz kasa seçimi.</p>';
+              }
+          }
+          
+          // Kasa Seçimi Formu
+          ?>
+          <hr>
+          <div class="card shadow-sm">
+              <div class="card-header text-center bg-light">
+                  <h3 class="mb-0 h4"><i class="fas fa-cash-register me-2"></i>Kasa Seçimi</h3>
+              </div>
+              <div class="card-body p-4">
+                  <?php if (!empty($kasalar)): ?>
+                      <p class="text-center text-muted mb-3">Lütfen satış işlemini tamamlamak için bir kasa seçin.</p>
+                      <form method="post" action="" class="kasa-secimi-formu">
+                          <div class="d-grid gap-2">
+                              <?php foreach ($kasalar as $kasa): ?>
+                                  <button type="submit" name="kasa_id" value="<?php echo htmlspecialchars($kasa['id']); ?>" class="btn btn-outline-primary btn-lg">
+                                      <i class="fas fa-desktop me-2"></i><?php echo htmlspecialchars($kasa['register_name']); ?>
+                                  </button>
+                              <?php endforeach; ?>
+                          </div>
+                      </form>
+                  <?php else: ?>
+                      <div class="alert alert-warning text-center">Aktif kasa bulunamadı. Lütfen sistem yöneticinizle iletişime geçin.</div>
+                  <?php endif; ?>
+              </div>
+          </div>
+          <?php
+      }
+      
+      // Kasa Seçimi Kısmı Bitişi
+      
+      ?>
 
       <div class="payment-form border p-3">
          <form id="payment-form" method="POST" action="satisi_tamamla.php">
