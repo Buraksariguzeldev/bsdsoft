@@ -27,24 +27,42 @@ $selected_cash_register = $_SESSION['selected_cash_register'] ?? null;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kasa Seçimi</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<div class="container mt-5">
-    <h3>Kasa Seçimi</h3>
-    <form method="post" action="">
-        <div class="d-grid gap-2">
-            <?php foreach ($cash_registers as $cash_register): ?>
-                <button type="submit" name="cash_register_id" value="<?= htmlspecialchars($cash_register['id']) ?>" class="btn btn-primary">
-                    <?= htmlspecialchars($cash_register['register_name']) ?>
-                </button>
-            <?php endforeach; ?>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="mb-0">Kasa Seçimi</h3>
+                    </div>
+                    <div class="card-body">
+                        <form method="post" action="">
+                            <div class="d-grid gap-2">
+                                <?php foreach ($cash_registers as $cash_register): ?>
+                                    <button type="submit" name="cash_register_id" value="<?= htmlspecialchars($cash_register['id']) ?>" class="btn btn-outline-primary">
+                                        <?= htmlspecialchars($cash_register['register_name']) ?>
+                                    </button>
+                                <?php endforeach; ?>
+                            </div>
+                        </form>
+                        <div class="mt-3">
+                            <p class="mb-0">Seçili Kasa:
+                                <?php if ($selected_cash_register): ?>
+                                    <span class="text-success">
+                                        <?= htmlspecialchars($cash_registers[array_search($selected_cash_register, array_column($cash_registers, 'id'))]['register_name']) ?>
+                                    </span>
+                                <?php else: ?>
+                                    <span class="text-muted">Kasa seçilmedi.</span>
+                                <?php endif; ?>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="card-footer text-center"><a href="dashboard.php" class="btn btn-link">dashboard.php</a></div>
+                </div>
+            </div>
         </div>
-    </form>
-    <p>Seçili Kasa: 
-        <?= $selected_cash_register ? htmlspecialchars($cash_registers[array_search($selected_cash_register, array_column($cash_registers, 'id'))]['register_name']) : 'Kasa seçilmedi.' ?>
-    </p>
-       <a href="dashboard.php">dashboard.php</a>
-</div>
+    </div>
 </body>
 </html>

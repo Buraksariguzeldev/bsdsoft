@@ -13,11 +13,11 @@ $mainCSS = '../../assets/src/css/main.css';
 $cssDosyalari = [];
 
 // Eğer `localhost:8001` veya `buraksariguzeldev.wuaze.com` ise `main.css` yüklenecek
-if ($sitePort == 8001 || $siteURL == 'buraksariguzeldev.wuaze.com') {
+if ($sitePort == 8003 || $siteURL == 'buraksariguzeldev.wuaze.com') {
     $cssDosyalari[] = $mainCSS;
 }
 // Eğer `localhost:8003` veya `bsdsoft.wuaze.com` ise `bootstrap` yüklenecek
-elseif ($sitePort == 8003 || $siteURL == 'bsdsoft.wuaze.com') {
+elseif ($sitePort == 8001 || $siteURL == 'bsdsoft.wuaze.com') {
     $cssDosyalari[] = $bootstrapURL;
     
     // Eğer `modules` klasöründeyse `main.css` de yüklenecek
