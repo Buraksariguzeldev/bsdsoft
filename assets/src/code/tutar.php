@@ -84,6 +84,8 @@
 </div>
 
 <script>
+document.getElementById("received_amount").addEventListener("input", calculateChange);
+
 function calculateChange() {
     var totalAmount = <?php echo $total; ?>;
     var receivedAmount = document.getElementById("received_amount").value;
