@@ -1,4 +1,3 @@
-php
 <?php
 include($_SERVER['DOCUMENT_ROOT'] . '/assets/src/include/header.php');
 include($_SERVER['DOCUMENT_ROOT'] . '/assets/src/include/navigasyon.php');
