@@ -51,7 +51,7 @@ include 'tarih_saat.php';
       <?php if ($kullanici_adi): ?>
       <div class="bsd-welcome">
          Hoş geldiniz,
-         <span class="bsd-hys-kullanici-adi" style="color: <?= $kullanici_color ?>;">
+         <span class="bsd-hys-kullanici-adi" style="color: <?= isset($kullanici_color) ? $kullanici_color : 'inherit' ?>;">
             <?php echo htmlspecialchars($kullanici_adi); ?>
          </span>
       </div>
@@ -165,10 +165,10 @@ if ($kullanici_adi)  {
          ];
 
 
-         $menu_items['Satis Yap'] = [
+         $menu_items['Satis Yönetimi'] = [
             'url' => '#',
             'icon' => 'fas fa-shopping-cart',
-            'text' => 'Satis Yap',
+            'text' => 'Satis Yönetimi',
             'submenu' => [
                'Satis Ekrani' => ['url' => 'satis_yonetimi/satis_paneli.php',
                   'icon' =>
@@ -179,13 +179,13 @@ if ($kullanici_adi)  {
                   'icon' => 'fa fa-list-alt',
                   'text' => 'Satis Listesi'],
 
-               'Satis Raporu' => ['url' => 'satislar/satis_raporu.php',
+               /* 'Satis Raporu' => ['url' => 'satislar/satis_raporu.php',
                   'icon' => 'fa fa-chart-line',
-                  'text' => 'Satis Raporu'],
+                  'text' => 'Satis Raporu'], */ // Raporlar menüsüne taşındı
 
-               'Urun Satisi' => ['url' => '/satislar/urun_raporlari.php',
+               /* 'Urun Satisi' => ['url' => '/satislar/urun_raporlari.php',
                   'icon' => 'bi bi-graph-up',
-                  'text' => 'Urun Raporu'],
+                  'text' => 'Urun Raporu'], */ // Raporlar menüsüne taşındı
 
                'Satis Takip' => ['url' => 'satislar/satis_takip.php',
                   'icon' => 'fa fa-clipboard-list',
@@ -193,6 +193,22 @@ if ($kullanici_adi)  {
             ]
          ];
 
+         // YENİ: Raporlar Menüsü
+         $menu_items['Raporlar'] = [
+            'url' => '#',
+            'icon' => 'fas fa-chart-pie', // Daha uygun bir ikon seçilebilir
+            'text' => 'Raporlar',
+            'submenu' => [
+               'Satis Raporu' => ['url' => 'raporlar/satis_raporu.php',
+                  'icon' => 'fa fa-chart-line',
+                  'text' => 'Satis Raporu'],
+
+               'Ürün Raporu' => ['url' => 'raporlar/urun_raporlari.php',
+                  'icon' => 'fa fa-chart-bar', // Daha uygun bir ikon
+                  'text' => 'Ürün Raporu'],
+            ]
+         ];
+         // YENİ: Raporlar Menüsü SONU
 
          $menu_items['Güncelleme'] = [
             'url' => '#',
@@ -232,6 +248,13 @@ if ($kullanici_adi)  {
 
             ]
          ];
+          // Hesap Ayarları Eklendi
+          $menu_items['hesap_ayarlari'] = [
+            'url' => 'auth/ayarlar.php',
+            'icon' => 'fas fa-user-cog', 
+            'text' => 'Hesap Ayarları'
+          ];
+
       }
 
 

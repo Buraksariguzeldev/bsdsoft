@@ -3,107 +3,115 @@
 session_start();
 
 // Gerekli dosyaları dahil et
-include($_SERVER['DOCUMENT_ROOT'] . '/assets/src/config/vt_baglanti.php');
-include($_SERVER['DOCUMENT_ROOT'] . '/assets/src/include/giriskontrol.php'); // Giriş kontrolünü yap
+// Önce veritabanı bağlantısı (PDO varsayılıyor)
+include($_SERVER['DOCUMENT_ROOT'] . '/assets/src/config/vt_baglanti.php'); // Bu dosyanın $vt = new PDO(...) şeklinde bir bağlantı kurduğunu varsayıyoruz.
+// Sonra giriş kontrolü
+include($_SERVER['DOCUMENT_ROOT'] . '/assets/src/include/giriskontrol.php');
 
 // Kullanıcı ID'sini al
+if (!isset($_SESSION["id"])) {
+    header("location: /auth/uyeislemleri/girisyap.php");
+    exit;
+}
 $user_id = $_SESSION["id"];
 
 // Hata ve başarı mesajları için değişkenler
 $hata_mesaji = '';
 $basari_mesaji = '';
 
-// Kullanıcı bilgilerini getir
+// Kullanıcı bilgileri
 $kullanici_adi = '';
 $kullanici_eposta = '';
 $mevcut_sifre_hash = '';
 
-// Veritabanı bağlantısı kontrolü (vt_baglanti.php'de $vt tanımlanmış olmalı)
-if ($vt) {
-    $sql_user = "SELECT kullanici_adi, kullanici_eposta, sifre FROM kullanicilar WHERE id = ?";
-    if ($stmt_user = $vt->prepare($sql_user)) {
-        $stmt_user->bind_param("i", $user_id);
+// Veritabanı işlemlerini try-catch bloğuna al
+try {
+    // Veritabanı bağlantısı kontrolü (PDO nesnesi $vt olarak varsayılıyor)
+    if ($vt) {
+        // Kullanıcı bilgilerini ve mevcut şifre hash'ini getir
+        $sql_user = "SELECT kullanici_adi, kullanici_eposta, sifre FROM kullanicilar WHERE id = :id";
+        $stmt_user = $vt->prepare($sql_user);
+        $stmt_user->bindParam(':id', $user_id, PDO::PARAM_INT);
+
         if ($stmt_user->execute()) {
-            $stmt_user->store_result(); // Sonuçları sakla (fetch öncesi önerilir)
-            if ($stmt_user->num_rows == 1) {
-                $stmt_user->bind_result($kullanici_adi, $kullanici_eposta, $mevcut_sifre_hash);
-                $stmt_user->fetch();
+            // fetch() metodu satır varsa array, yoksa false döndürür
+            $user_data = $stmt_user->fetch(PDO::FETCH_ASSOC);
+            if ($user_data) {
+                $kullanici_adi = $user_data['kullanici_adi'];
+                $kullanici_eposta = $user_data['kullanici_eposta'];
+                $mevcut_sifre_hash = $user_data['sifre'];
             } else {
-                // Kullanıcı bulunamadı, bu bir hata durumu
                 $hata_mesaji = "Hesap bilgileri bulunamadı.";
-                // Oturumu sonlandırıp girişe yönlendirmek daha güvenli olabilir
-                // session_destroy();
-                // header("location: /auth/uyeislemleri/girisyap.php"); exit;
+                 // Belki burada oturumu sonlandırmak daha iyi
             }
         } else {
             $hata_mesaji = "Kullanıcı bilgileri alınırken bir sorgu hatası oluştu.";
-            error_log("Ayarlar - Kullanıcı bilgisi alma hatası: " . $stmt_user->error); // Hata loglama
+            // PDO'nun hata detaylarını logla
+             error_log("Ayarlar - Kullanıcı bilgisi alma hatası: " . implode(" | ", $stmt_user->errorInfo()));
         }
-        $stmt_user->close();
-    } else {
-        $hata_mesaji = "Veritabanı sorgusu hazırlanırken bir hata oluştu.";
-        error_log("Ayarlar - Kullanıcı sorgusu hazırlama hatası: " . $vt->error); // Hata loglama
-    }
+        // PDO statement'ını kapatmaya gerek yok, genellikle kapsam dışı kalınca halledilir
+        $stmt_user = null;
 
-    // Şifre değiştirme isteği geldiyse
-    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sifre_degistir"])) {
-        $mevcut_sifre = $_POST["mevcut_sifre"];
-        $yeni_sifre = $_POST["yeni_sifre"];
-        $yeni_sifre_tekrar = $_POST["yeni_sifre_tekrar"];
+        // Şifre değiştirme isteği geldiyse
+        if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sifre_degistir"])) {
+            $mevcut_sifre = $_POST["mevcut_sifre"];
+            $yeni_sifre = $_POST["yeni_sifre"];
+            $yeni_sifre_tekrar = $_POST["yeni_sifre_tekrar"];
 
-        // Mevcut şifre hash'i boşsa devam etme (yukarıdaki sorguda hata olmuş olabilir)
-        if (empty($mevcut_sifre_hash) && empty($hata_mesaji)) {
-             $hata_mesaji = "Mevcut şifre bilgisi alınamadı. Lütfen tekrar deneyin.";
-        } elseif (!empty($hata_mesaji)) {
-             // Zaten bir hata mesajı varsa, şifre işlemi yapma
-        }
-        // Mevcut şifre doğrulaması
-        elseif (!password_verify($mevcut_sifre, $mevcut_sifre_hash)) {
-            $hata_mesaji = "Mevcut şifreniz yanlış.";
-        } elseif (strlen($yeni_sifre) < 6) {
-            $hata_mesaji = "Yeni şifre en az 6 karakter olmalıdır.";
-        } elseif ($yeni_sifre != $yeni_sifre_tekrar) {
-            $hata_mesaji = "Yeni şifreler eşleşmiyor.";
-        } elseif ($mevcut_sifre == $yeni_sifre) {
-             $hata_mesaji = "Yeni şifre mevcut şifrenizle aynı olamaz.";
-        }
-         else {
-            // Yeni şifreyi hashle
-            $hashed_password = password_hash($yeni_sifre, PASSWORD_DEFAULT);
+            // Ön kontroller
+            if (empty($mevcut_sifre_hash) && empty($hata_mesaji)) {
+                 $hata_mesaji = "Mevcut şifre bilgisi alınamadı. Lütfen tekrar deneyin.";
+            } elseif (!empty($hata_mesaji)) {
+                 // Zaten bir hata mesajı varsa, şifre işlemi yapma
+            } elseif (!password_verify($mevcut_sifre, $mevcut_sifre_hash)) {
+                $hata_mesaji = "Mevcut şifreniz yanlış.";
+            } elseif (strlen($yeni_sifre) < 6) {
+                $hata_mesaji = "Yeni şifre en az 6 karakter olmalıdır.";
+            } elseif ($yeni_sifre != $yeni_sifre_tekrar) {
+                $hata_mesaji = "Yeni şifreler eşleşmiyor.";
+            } elseif ($mevcut_sifre == $yeni_sifre) {
+                 $hata_mesaji = "Yeni şifre mevcut şifrenizle aynı olamaz.";
+            } else {
+                // Yeni şifreyi hashle
+                $hashed_password = password_hash($yeni_sifre, PASSWORD_DEFAULT);
 
-            // Veritabanında güncelle
-            $sql_update = "UPDATE kullanicilar SET sifre = ? WHERE id = ?";
-            if ($stmt_update = $vt->prepare($sql_update)) {
-                $stmt_update->bind_param("si", $hashed_password, $user_id);
+                // Veritabanında güncelle
+                $sql_update = "UPDATE kullanicilar SET sifre = :yeni_sifre WHERE id = :id";
+                $stmt_update = $vt->prepare($sql_update);
+                $stmt_update->bindParam(':yeni_sifre', $hashed_password, PDO::PARAM_STR);
+                $stmt_update->bindParam(':id', $user_id, PDO::PARAM_INT);
+
                 if ($stmt_update->execute()) {
-                    // Başarı kontrolü
-                    if ($stmt_update->affected_rows > 0) {
+                    // rowCount() ile etkilenen satır sayısını kontrol et
+                    if ($stmt_update->rowCount() > 0) {
                          $basari_mesaji = "Şifre başarıyla değiştirildi.";
                          // Başarı durumunda mevcut hash'i de güncelle
                          $mevcut_sifre_hash = $hashed_password;
                     } else {
-                         // Etkilenen satır yoksa (belki aynı ID ile tekrar denendi?)
-                         $hata_mesaji = "Şifre güncellenemedi veya zaten yeni şifre buydu.";
+                         // Güncelleme başarılı oldu ama hiçbir satır etkilenmedi (nadir durum) veya şifre zaten buydu.
+                         $hata_mesaji = "Şifre güncellenemedi veya bir değişiklik yapılmadı.";
                     }
                 } else {
                     $hata_mesaji = "Şifre güncellenirken bir veritabanı hatası oluştu.";
-                     error_log("Ayarlar - Şifre güncelleme execute hatası: " . $stmt_update->error); // Hata loglama
+                     error_log("Ayarlar - Şifre güncelleme execute hatası: " . implode(" | ", $stmt_update->errorInfo()));
                 }
-                $stmt_update->close();
-            } else {
-                 $hata_mesaji = "Şifre güncelleme sorgusu hazırlanırken bir hata oluştu.";
-                 error_log("Ayarlar - Şifre güncelleme prepare hatası: " . $vt->error); // Hata loglama
+                $stmt_update = null; // Statement'ı kapat
             }
         }
+    } else {
+         // Veritabanı bağlantısı nesnesi ($vt) mevcut değilse
+         $hata_mesaji = "Veritabanı bağlantısı kurulamadı.";
+         error_log("Ayarlar - Veritabanı bağlantı nesnesi bulunamadı.");
     }
-    // Veritabanı bağlantısını kapat
-    $vt->close();
-} else {
-     // Veritabanı bağlantısı hiç kurulamadıysa
-     $hata_mesaji = "Veritabanı bağlantısı kurulamadı.";
-     error_log("Ayarlar - Veritabanı bağlantı hatası."); // Hata loglama
-     // Burada kritik bir hata olduğu için belki sayfayı hiç göstermemek daha iyi olabilir.
+
+} catch (PDOException $e) {
+    // PDOException yakala
+    $hata_mesaji = "Veritabanı hatası: İşlem gerçekleştirilemedi."; // Kullanıcıya genel bir mesaj göster
+    error_log("Ayarlar - PDOException: " . $e->getMessage()); // Detayları logla
 }
+
+// Veritabanı bağlantısını kapat (PDO için null yapmak yeterli)
+$vt = null;
 
 
 // Header ve Navigasyon (HTML öncesi PHP işlemleri bittikten sonra)
@@ -161,7 +169,7 @@ include($_SERVER['DOCUMENT_ROOT'] . '/assets/src/include/navigasyon.php');
                     <div class="alert alert-success text-center"><?php echo htmlspecialchars($basari_mesaji); ?></div>
                 <?php endif; ?>
 
-                <?php if ($vt): // Veritabanı bağlantısı başarılıysa formu göster ?>
+                <?php if (!isset($e) && $vt !== false): // Veritabanı bağlantısı başarılıysa ve Exception oluşmadıysa formu göster ( $vt null olabilir ama başta false değildi)?>
                 <div class="row justify-content-center">
                     <div class="col-md-8 col-lg-7 col-xl-6">
                          <!-- Form action'ı boş bırakmak veya kendine göndermek güvenlidir -->
@@ -186,7 +194,7 @@ include($_SERVER['DOCUMENT_ROOT'] . '/assets/src/include/navigasyon.php');
                     </div>
                 </div>
                 <?php else: ?>
-                     <div class="alert alert-danger text-center">Şifre değiştirme formu yüklenemedi. Veritabanı bağlantı hatası.</div>
+                     <div class="alert alert-danger text-center">Şifre değiştirme formu yüklenemedi. Veritabanı veya yapılandırma hatası.</div>
                 <?php endif; ?>
             </div> <!-- card-body sonu -->
         </div> <!-- card sonu -->
