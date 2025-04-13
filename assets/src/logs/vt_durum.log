@@ -607,3 +607,6 @@
 [21-03-2025 18:22:43] [/urunler/urun_listesi.php?product_name=Lark&barcode=&product_group=&brand_id=&min_price=&max_price=&order_by=id] İlk veritabanına bağlanıldı.
 [21-03-2025 18:23:07] [/urunler/urun_listesi.php?product_name=CHESTERFIELD&barcode=&product_group=&brand_id=&min_price=&max_price=&order_by=id] İlk veritabanına bağlanıldı.
 [22-03-2025 01:00:24] [/urunler/urun_listesi.php?product_name=&barcode=86939775&product_group=&brand_id=&min_price=&max_price=&order_by=] İlk veritabanına bağlanıldı.
+[13-04-2025 14:14:51] [/auth/ayarlar.php] İlk veritabanına bağlanıldı.
+[13-04-2025 15:20:05] [/raporlar/satis_raporu.php] İlk veritabanına bağlanıldı.
+[13-04-2025 15:20:12] [/raporlar/urun_raporlari.php] İlk veritabanına bağlanıldı.
