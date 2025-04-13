@@ -1,7 +1,7 @@
 <?php
 include($_SERVER['DOCUMENT_ROOT'] . '/ajax/sepet_guncelle.php');
 
-<a href=""></a>
+
 
 // Bu dosya satis_paneli.php içinde include ediliyor.
 // Sepet verisinin $_SESSION['sepet'] içinde olduğunu varsayalım.
