@@ -1,30 +1,30 @@
 <?php
 
 include($_SERVER['DOCUMENT_ROOT'] . '/assets/src/include/navigasyon.php');
+include($_SERVER['DOCUMENT_ROOT'] . '/assets/src/config/vt_baglanti.php');
 
-?>
 
+?> 
 <!DOCTYPE html>
 <html lang="tr">
 <head>
 
-     <title> Ana Sayfa </title>
-
+   <title> Ana Sayfa </title>
 
 </head>
-<body>
+<body class="bg-light">
 
-   
+
    <div class="container mt-5">
 
       <?php if (!$kullanici_adi): ?>
-      <!-- Giriş yapmamış kullanıcılar için içerik -->
-      <div class="alert alert-info text-center">
-         <h5><i class="fas fa-home"></i> Hoş Geldiniz </h5>
-         <p>
-            bsdsoft.wuaze.com sitesine hoş geldiniz. Burada çeşitli içeriklere erişebilir, giriş yapabilir veya kayıt olabilirsiniz.
-         </p>
-      </div>
+         <!-- Giriş yapmamış kullanıcılar için içerik -->
+         <div class="alert alert-info text-center">
+            <h5><i class="fas fa-home"></i> Hoş Geldiniz </h5>
+            <p>
+               bsdsoft.wuaze.com sitesine hoş geldiniz. Burada çeşitli içeriklere erişebilir, giriş yapabilir veya kayıt olabilirsiniz.
+            </p>
+         </div>
       <?php else : ?>
 
       <!-- Giriş yapmış kullanıcılar için içerik -->
@@ -36,22 +36,13 @@ include($_SERVER['DOCUMENT_ROOT'] . '/assets/src/include/navigasyon.php');
          <div class="btn-group" role="group">
 
 
-         </div>
+         </div> 
       </div>
-      
-      
-      
-      
-      <?php 
-      
-      
-      include($_SERVER['DOCUMENT_ROOT'] . '/assets/src/widget/satiswg.php');
-      
-      
-      
-      endif; ?>
 
 
+
+
+      <?php        endif;?>
 
    </div>
 

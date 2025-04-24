@@ -88,15 +88,8 @@ try {
 
 </head>
 <body>
-   <?php if (!$kullanici_adi): ?>
 
 
-
-   <a href="../auth/login.php" class="btn btn-link text-decoration-none">
-      İçerikleri görmek için giriş yapın
-   </a>
-
-   <?php else : ?>
 
    <h5>
        <i class="bi bi-bag-plus"></i>
@@ -236,6 +229,6 @@ try {
 
 
 <?php include $_SERVER["DOCUMENT_ROOT"] . "/assets/src/include/footer.php"; ?>
-<?php endif; ?>
+
 </body>
 </html>

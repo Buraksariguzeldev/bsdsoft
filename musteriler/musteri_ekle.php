@@ -47,19 +47,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
  
 </head>
 <body>
-  
-  
-         <?php if (!$kullanici_adi): ?>
-
-      
-
-<a href="../auth/login.php" class="btn btn-link text-decoration-none">
-    İçerikleri görmek için giriş yapın
-</a>
-     
-     
-         <?php else: ?>
-
     <h5>
        <i class="bi bi-person-plus"></i> Müşteri Ekle
    </h5>
@@ -99,7 +86,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     </form>
     
-        <?php endif; ?>
-</d>
+
 </body>
 </html>

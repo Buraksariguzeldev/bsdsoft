@@ -7,6 +7,7 @@ include 'header.php';
 include 'styles.php';
 include 'fontheader.php';
 include 'tarih_saat.php';
+include 'degisken.php'
 
 
 ?>
@@ -289,6 +290,20 @@ if ($kullanici_adi)  {
    </div>
 
    <div class="bsd-content">
+    
+<?php
+$path = $_SERVER['PHP_SELF'];
+
+// Eğer yol içinde "/auth/" veya "/out/" geçmiyorsa ve dosya index.php değilse, include yapılır
+if (
+    strpos($path, '/auth/') === false &&
+    strpos($path, '/out/') === false &&
+    basename($path) !== 'index.php'
+) {
+    include($_SERVER['DOCUMENT_ROOT'] . '/assets/src/include/giriskontrol.php');
+}
+?>
+
       <!-- Sayfa içeriği buraya gelecek -->
    </div>
 
