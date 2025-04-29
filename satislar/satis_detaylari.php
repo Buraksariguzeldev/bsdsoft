@@ -53,19 +53,10 @@ try {
 
 </head>
 <body>
-   <?php if (!$kullanici_adi): ?>
 
 
-
-   <a href="../auth/login.php" class="btn btn-link text-decoration-none">
-      İçerikleri görmek için giriş yapın
-   </a>
-
-
-   <?php else : ?>
-
-   <div class="container mt-5">
-      <h1 class="mb-4">Satış Detayları - Satış ID: <?= htmlspecialchars($sale_id) ?></h1>
+   <div class="p-3">
+      <h5 class="mb-4">Satış Detayları - Satış No: <?= htmlspecialchars($sale_id) ?></h5>
 
       <?php if ($sale_details): ?>
       <!-- Satış Ürünleri Tablosu -->
@@ -93,8 +84,8 @@ try {
       </div>
 
       <!-- Satış Özeti -->
-      <div class="mt-4">
-         <h3 class="mb-3">Satış Özeti</h3>
+      <div class="p-3">
+         <h5 class="mb-3">Satış Özeti</h5>
          <table class="table table-bordered">
             <tr>
                <th>Toplam Satış Tutarı</th>
@@ -120,6 +111,10 @@ try {
    <!-- Bootstrap JS (Opsiyonel) -->
 
 
-   <?php endif; ?>
+<?php 
+include $_SERVER["DOCUMENT_ROOT"] . "/assets/src/include/footer.php"; 
+
+?>
+
 </body>
 </html>

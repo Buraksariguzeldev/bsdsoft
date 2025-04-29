@@ -46,16 +46,6 @@ $sales = $stmt->fetchAll(PDO::FETCH_ASSOC);
   
 </head>
 <body>
-         <?php if (!$kullanici_adi): ?>
-
-      
-
-<a href="../auth/login.php" class="btn btn-link text-decoration-none">
-    İçerikleri görmek için giriş yapın
-</a>
-     
-     
-         <?php else: ?>
 
         <h5>
            <i class="bi bi-list-check"></i>
@@ -112,6 +102,6 @@ $sales = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
 
 
-        <?php endif; ?>
+
 </body>
 </html>

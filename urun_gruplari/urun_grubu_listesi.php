@@ -24,17 +24,7 @@ try {
 
 </head>
 <body>
-        <?php if (!$kullanici_adi): ?>
-
-      
-
-<a href="../auth/login.php" class="btn btn-link text-decoration-none">
-    İçerikleri görmek için giriş yapın
-</a>
-     
-     
-         <?php else: ?>
-   
+ 
         <h5>
            <i class="bi bi-ui-checks-grid"></i> Ürün Grubu listesi
         </h5>
@@ -48,18 +38,18 @@ try {
     </thead>
     <tbody>
         <?php foreach ($groups as $group): ?>
-            <tr>
-                <td><?= htmlspecialchars($group['group_name']) ?></td>
-                <td>
-                    <a href="urun_grubu_duzenle.php?id=<?= $group['id'] ?>" class="btn btn-warning btn-sm">
-                        <i class="bi bi-pencil-square"></i> Düzenle
-                    </a>
-                    <a href="urun_grubu_sil.php?id=<?= $group['id'] ?>" class="btn btn-danger btn-sm"
-                       onclick="return confirm('Bu ürün grubunu silmek istediğinizden emin misiniz?');">
-                        <i class="bi bi-trash"></i> Sil
-                    </a>
-                </td>
-            </tr>
+<tr data-id="<?= $group['id'] ?>">
+    <td><?= htmlspecialchars($group['group_name']) ?></td>
+    <td>
+        <a href="urun_grubu_duzenle.php?id=<?= $group['id'] ?>" class="btn btn-warning btn-sm">
+            <i class="bi bi-pencil-square"></i> Düzenle
+        </a>
+        <a href="#" class="btn btn-danger btn-sm" onclick="grupSil(<?= $group['id'] ?>, event)">
+            <i class="bi bi-trash"></i> Sil
+        </a>
+    </td>
+</tr>
+
         <?php endforeach; ?>
     </tbody>
 </table>
@@ -69,6 +59,53 @@ try {
 include $_SERVER["DOCUMENT_ROOT"] . "/assets/src/include/footer.php"; 
 
 ?>
-    <?php endif; ?>
+
+    
+    <script>
+function grupSil(id, event) {
+    event.preventDefault();
+    if (confirm('Bu ürün grubunu silmek istediğinizden emin misiniz?')) {
+        fetch('urun_grubu_sil.php?id=' + id)
+            .then(response => response.text())
+            .then(data => {
+                if (data === 'success') {
+                    // Başarı mesajını göster
+                    const alertDiv = document.createElement('div');
+                    alertDiv.className = 'alert alert-success alert-dismissible fade show';
+                    alertDiv.innerHTML = `
+                        <i class="bi bi-check-circle"></i> Ürün grubu başarıyla silindi!
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    `;
+                    document.querySelector('h5').after(alertDiv);
+
+                    // Silinen satırı tablodan kaldır
+                    const row = document.querySelector(`tr[data-id="${id}"]`);
+                    if (row) {
+                        row.remove();
+                    }
+
+                    // 3 saniye sonra alert'i kaldır
+                    setTimeout(() => {
+                        alertDiv.remove();
+                    }, 3000);
+                } else {
+                    // Hata mesajını göster
+                    const alertDiv = document.createElement('div');
+                    alertDiv.className = 'alert alert-danger alert-dismissible fade show';
+                    alertDiv.innerHTML = `
+                        <i class="bi bi-exclamation-triangle"></i> ${data}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    `;
+                    document.querySelector('h5').after(alertDiv);
+                }
+            })
+            .catch(error => {
+                console.error('Hata:', error);
+                alert('Ürün grubu silinirken bir hata oluştu.');
+            });
+    }
+}
+</script>
+
 </body>
 </html>

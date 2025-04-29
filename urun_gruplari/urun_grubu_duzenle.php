@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
 
-   <a href="../auth/login.php" class="btn btn-link text-decoration-none">
+   <a href="" class="btn btn-link text-decoration-none">
       İçerikleri görmek için giriş yapın
    </a>
 

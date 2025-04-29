@@ -249,7 +249,7 @@ include $_SERVER["DOCUMENT_ROOT"] .
      $sira = 1; // Sıra numarası başlangıç
    ?>  
      <?php foreach ($products as $product): ?>  
-     <tr>  
+     <tr data-id="<?= $product['id'] ?>">
        <td><?= $sira++ ?></td>  
        <td><?= htmlspecialchars($product['id']) ?></td>  
        <td class="text-start">
@@ -261,10 +261,7 @@ include $_SERVER["DOCUMENT_ROOT"] .
              <i class="bi bi-pencil-square"></i> Düzenle  
            </a>  
            <hr class="my-1">
-           <a href="urun_sil.php?id=<?= $product['id'] ?>" class="d-block text-danger"  
-              onclick="return confirm('Silmek istediğinizden emin misiniz?')">  
-             <i class="bi bi-trash"></i> Sil  
-           </a>  
+        
          </div>
        </td>  
        <td><?= htmlspecialchars($product['barcode']) ?></td>  
@@ -290,7 +287,7 @@ include $_SERVER["DOCUMENT_ROOT"] .
            <span class="text-muted"><img src="../uploads/no-image.png" alt=""></span>  
          <?php endif; ?>  
        </td>  
-     </tr>  
+     </t>  
      <?php endforeach; ?>  
    <?php else: ?>  
      <tr>  
@@ -325,8 +322,56 @@ function toggleMenu(id) {
          window.open('../assets/src/php/camera.php', 'BarcodeScanner',  
             'width=640,height=480,toolbar=no,statusbar=no,menubar=no');  
       }  
-   </script>  
-   <script src="../assets/src/js/klavye.js"></script>  
+      
+      
+      <script>
+function toggleMenu(id) {
+    var menu = document.getElementById(id);
+    if (menu.classList.contains('d-none')) {
+        document.querySelectorAll('.bg-light.border.rounded.p-2').forEach(el => el.classList.add('d-none'));
+        menu.classList.remove('d-none');
+    } else {
+        menu.classList.add('d-none');
+    }
+}
+
+function urunSil(id, event) {
+    event.preventDefault();
+    if (confirm('Bu ürünü silmek istediğinizden emin misiniz?')) {
+        fetch('urun_sil.php?id=' + id)
+            .then(response => response.text())
+            .then(data => {
+                // Başarı mesajını göster
+                const alertDiv = document.createElement('div');
+                alertDiv.className = 'alert alert-success alert-dismissible fade show';
+                alertDiv.innerHTML = `
+                    <i class="fas fa-check-circle"></i> Ürün başarıyla silindi!
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                `;
+                document.querySelector('h5').after(alertDiv);
+
+                // Silinen satırı tablodan kaldır
+                const row = document.querySelector(`tr[data-id="${id}"]`);
+                if (row) {
+                    row.remove();
+                }
+
+                // 3 saniye sonra alert'i kaldır
+                setTimeout(() => {
+                    alertDiv.remove();
+                }, 3000);
+            })
+            .catch(error => {
+                console.error('Hata:', error);
+                alert('Ürün silinirken bir hata oluştu.');
+            });
+    }
+}
+</script>
+
+
+
+
 
 </body>  
 </html>

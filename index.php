@@ -1,7 +1,6 @@
 <?php
 
 include($_SERVER['DOCUMENT_ROOT'] . '/assets/src/include/navigasyon.php');
-include($_SERVER['DOCUMENT_ROOT'] . '/assets/src/config/vt_baglanti.php');
 
 
 ?> 
@@ -42,7 +41,7 @@ include($_SERVER['DOCUMENT_ROOT'] . '/assets/src/config/vt_baglanti.php');
 
 
 
-      <?php        endif;?>
+      <?php endif;?>
 
    </div>
 

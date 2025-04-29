@@ -55,7 +55,8 @@ try {
                 <tbody>
                     <?php foreach ($brands as $brand): ?>
                         <tr>
-                            <td><?= htmlspecialchars($brand['id']) ?></td>
+<tr data-id="<?= $brand['id'] ?>">
+                               <td><?= htmlspecialchars($brand['id']) ?></td>
                             <td><?= htmlspecialchars($brand['brand_name']) ?></td>
 
                             <td><?= htmlspecialchars($brand['created_at']) ?></td>
@@ -63,9 +64,10 @@ try {
                                 <a href="marka_duzenle.php?id=<?= $brand['id'] ?>" class="btn btn-sm btn-warning">
                                     <i class="fas fa-edit"></i> Düzenle
                                 </a>
-                                <a href="marka_sil.php?id=<?= $brand['id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Bu markayı silmek istediğinizden emin misiniz?');">
-                                    <i class="fas fa-trash"></i> Sil
-                                </a>
+<a href="javascript:void(0)" class="btn btn-sm btn-danger" onclick="markaSil(<?= $brand['id'] ?>)">
+    <i class="fas fa-trash"></i> Sil
+</a>
+
                             </td>
                         </tr>
                     <?php endforeach; ?>
@@ -78,5 +80,40 @@ try {
 
    
         <?php endif; ?>
+        
+        <script>
+function markaSil(id) {
+    if (confirm('Bu markayı silmek istediğinizden emin misiniz?')) {
+        fetch('marka_sil.php?id=' + id)
+            .then(response => response.text())
+            .then(data => {
+                // Başarı mesajını göster
+                const alertDiv = document.createElement('div');
+                alertDiv.className = 'alert alert-success alert-dismissible fade show';
+                alertDiv.innerHTML = `
+                    Marka başarıyla silindi
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                `;
+                document.querySelector('h5').after(alertDiv);
+
+                // Silinen satırı tablodan kaldır
+                const silinecekSatir = document.querySelector(`tr[data-id="${id}"]`);
+                if (silinecekSatir) {
+                    silinecekSatir.remove();
+                }
+
+                // 3 saniye sonra alert'i kaldır
+                setTimeout(() => {
+                    alertDiv.remove();
+                }, 3000);
+            })
+            .catch(error => {
+                console.error('Hata:', error);
+                alert('Marka silinirken bir hata oluştu.');
+            });
+    }
+}
+</script>
+
 </body>
 </html>

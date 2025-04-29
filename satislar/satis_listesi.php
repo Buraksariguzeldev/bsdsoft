@@ -78,25 +78,19 @@ try {
 <head>
 
    <title>Tarihsel Satış Raporu</title>
-   <!-- Bootstrap CSS -->
+
 
 </head>
 <body>
-   <?php if (!$kullanici_adi): ?>
-   <a href="../auth/login.php" class="btn btn-link text-decoration-none">
-      İçerikleri görmek için giriş yapın
-   </a>
 
-
-   <?php else : ?>
    
-      <h5 class="mb-4">
+      <h5 >
       <i class="bi bi-calendar-check"></i>
          Tarihsel Satış Raporu
       </h5>
 
       <!-- Tarih aralığı seçimi -->
-      <form method="get" class="mb-4">
+      <form method="get" class="p-3">
          <div class="form-group">
             <label for="date_filter">Tarih Seçimi</label>
             <select name="date_filter" id="date_filter" class="form-select" onchange="handleDateFilter(this.value)">
@@ -156,8 +150,6 @@ try {
    </div>
 
    <!-- Bootstrap JS (Opsiyonel) -->
-   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
 
    <script>
       function handleDateFilter(value) {
@@ -169,6 +161,6 @@ try {
          }
       }
    </script>
-   <?php endif; ?>
+
 </body>
 </html>
