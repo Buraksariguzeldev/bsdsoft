@@ -621,3 +621,7 @@
 [29-04-2025 22:55:28] [/urun_gruplari/urun_grubu_sil.php?id=2] İlk veritabanına bağlanıldı.
 [29-04-2025 22:56:11] [/urun_gruplari/urun_grubu_sil.php?id=1] İlk veritabanına bağlanıldı.
 [29-04-2025 23:00:14] [/kasa_yonetim/kasa_sil.php?id=19] İlk veritabanına bağlanıldı.
+[10-05-2025 13:57:33] [/update/hizli_fiyat_guncelle.php?product_name=&barcode=1&product_group=&brand_id=&min_price=&max_price=] İlk veritabanına bağlanıldı.
+[10-05-2025 13:57:41] [/update/hizli_fiyat_guncelle.php?product_name=4&barcode=&product_group=&brand_id=&min_price=&max_price=] İlk veritabanına bağlanıldı.
+[10-05-2025 13:58:07] [/update/hizli_fiyat_guncelle.php?product_name=Elma&barcode=&product_group=1&brand_id=&min_price=&max_price=] İlk veritabanına bağlanıldı.
+[10-05-2025 13:58:20] [/update/hizli_fiyat_guncelle.php?product_name=Armut&barcode=&product_group=1&brand_id=&min_price=&max_price=] İlk veritabanına bağlanıldı.

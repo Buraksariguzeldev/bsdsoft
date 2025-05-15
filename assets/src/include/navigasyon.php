@@ -2,12 +2,12 @@
 include($_SERVER['DOCUMENT_ROOT'] .'/assets/src/php/kullanici_adi.php');
 
 include 'siteurl.php';
-include_once($_SERVER['DOCUMENT_ROOT'] . '/assets/src/include/cssfont.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/assets/src/include/musterifont.php');
 include 'header.php';
 include 'styles.php';
 include 'fontheader.php';
 include 'tarih_saat.php';
-include 'degisken.php'
+include 'degisken.php' ;
 
 
 ?>
@@ -74,191 +74,7 @@ include 'degisken.php'
       $menu_items = [];
 
 
-      if ($kullanici_adi) {
-
-
-if ($kullanici_adi)  { 
-      $menu_items['site_haritasi'] = ['url' => 'siteharitasi.php',
-      'icon' => 'fas fa-sitemap', 'text' => 'Site Haritasi'];
-
-}
-
-         $menu_items['Ürunler'] = [
-            'url' => '#',
-            'icon' => 'fas fa-boxes',
-            'text' => 'Ürunler',
-            'submenu' => [
-               'Urun Duzenle' => ['url' => 'urunler/urun_ekle.php',
-                  'icon' => 'fas
-            fa-plus-circle',
-                  'text' => 'Ürun ekle'],
-
-               'Ürun listesi' => ['url' => 'urunler/urun_listesi.php',
-                  'icon' => 'fas fa-list-ul',
-                  'text' => 'urun listesi'],
-
-            ]
-         ];
-
-         $menu_items['Ürun Grubu'] = [
-            'url' => '#',
-            'icon' => 'fas fa-th-large',
-            'text' => 'Ürun Grubu',
-            'submenu' => [
-               'Urun Grubu Ekle' => ['url' => 'urun_gruplari/urun_grubu_ekle.php',
-                  'icon' => 'fas
-            fa-plus-circle',
-                  'text' => 'Ürun Grubu ekle'],
-
-               'Ürun Grubu listesi' => ['url' =>
-                  'urun_gruplari/urun_grubu_listesi.php',
-                  'icon' => 'fas fa-list-ul',
-                  'text' => 'urun Grubu listesi'],
-
-            ]
-         ];
-
-
-         $menu_items['Marka'] = [
-            'url' => '#',
-            'icon' => 'fas fa-registered',
-            'text' => 'Marka',
-            'submenu' => [
-               'Marka Ekle' => ['url' => 'marka/marka_ekle.php',
-                  'icon' => 'fas
-            fa-plus-circle',
-                  'text' => 'Marka ekle'],
-
-               'Marka' => ['url' =>
-                  'marka/marka_listesi.php',
-                  'icon' => 'fas fa-list-ul',
-                  'text' => 'Marka listesi'],
-
-            ]
-         ];
-         $menu_items['musteriler'] = [
-            'url' => '#',
-            'icon' => 'fas fa-users',
-            'text' => 'Musteriler',
-            'submenu' => [
-               'Musteri düzenle' => ['url' => 'musteriler/musteri_ekle.php',
-                  'icon' => 'fas
-            fa-user-shield',
-                  'text' => 'Müsteri ekle'],
-
-               'Musteri görüntüle' => ['url' => 'musteriler/musteriler.php',
-                  'icon' => 'fas fa-user-edit',
-                  'text' => 'Musteri listesi'],
-
-            ]
-         ];
-
-         $menu_items['Kasalar'] = [
-            'url' => '#',
-            'icon' => 'fas fa-money-check-alt',
-            'text' => 'Kasalar',
-            'submenu' => [
-               'Kasa görüntüle' => ['url' =>
-                  'kasa_yonetim/kasa_listesi.php',
-                  'icon' => 'fas fa-university',
-                  'text' => 'Kasa Görüntüleme'],
-            ]
-         ];
-
-
-         $menu_items['Satis Yönetimi'] = [
-            'url' => '#',
-            'icon' => 'fas fa-shopping-cart',
-            'text' => 'Satis Yönetimi',
-            'submenu' => [
-               'Satis Ekrani' => ['url' => 'satis_yonetimi/satis_paneli.php',
-                  'icon' =>
-                  'fas fa-cash-register',
-                  'text' => 'Satis Ekrani'],
-
-               'Satis Listesi' => ['url' => 'satislar/satis_listesi.php',
-                  'icon' => 'fa fa-list-alt',
-                  'text' => 'Satis Listesi'],
-
-               /* 'Satis Raporu' => ['url' => 'satislar/satis_raporu.php',
-                  'icon' => 'fa fa-chart-line',
-                  'text' => 'Satis Raporu'], */ // Raporlar menüsüne taşındı
-
-               /* 'Urun Satisi' => ['url' => '/satislar/urun_raporlari.php',
-                  'icon' => 'bi bi-graph-up',
-                  'text' => 'Urun Raporu'], */ // Raporlar menüsüne taşındı
-
-               'Satis Takip' => ['url' => 'satislar/satis_takip.php',
-                  'icon' => 'fa fa-clipboard-list',
-                  'text' => 'Satis Takip'],
-            ]
-         ];
-
-         // YENİ: Raporlar Menüsü
-         $menu_items['Raporlar'] = [
-            'url' => '#',
-            'icon' => 'fas fa-chart-pie', // Daha uygun bir ikon seçilebilir
-            'text' => 'Raporlar',
-            'submenu' => [
-               'Satis Raporu' => ['url' => 'raporlar/satis_raporu.php',
-                  'icon' => 'fa fa-chart-line',
-                  'text' => 'Satis Raporu'],
-
-               'Ürün Raporu' => ['url' => 'raporlar/urun_raporlari.php',
-                  'icon' => 'fa fa-chart-bar', // Daha uygun bir ikon
-                  'text' => 'Ürün Raporu'],
-            ]
-         ];
-         // YENİ: Raporlar Menüsü SONU
-
-         $menu_items['Güncelleme'] = [
-            'url' => '#',
-            'icon' => 'fas fa-sync-alt',
-            'text' => 'Güncelleme',
-            'submenu' => [
-               'Fiyat değişikliği' => ['url' => 'update/hizli_fiyat_guncelle.php',
-                  'icon' => 'fas
-            fa-tag',
-                  'text' => 'Fiyat Değişikliği'],
-
-               'Resim Düzenle' => ['url' => 'update/görsel_yonetimi.php',
-                  'icon' => 'fas fa-edit',
-                  'text' => 'Resim düzenle'],
-
-               'Hizli grup' => ['url' =>
-                  'update/urun_navigasyon_guncelle.php',
-                  'icon' => 'fas fa-edit',
-                  'text' => 'Hizli Gruplandir'],
-
-            ]
-         ];
-
-         $menu_items['modules'] = [
-            'url' => '#',
-            'icon' => 'fas fa-th',
-            'text' => 'Modules',
-            'submenu' => [
-               'Modules php' => ['url' => 'modules/modules.php',
-                  'icon' => 'fas
-            fa-cogs',
-                  'text' => 'Modules'],
-
-               'Data' => ['url' => 'modules/data/data.php',
-                  'icon' => 'fas fa-database',
-                  'text' => 'Data'],
-
-            ]
-         ];
-          // Hesap Ayarları Eklendi
-          $menu_items['hesap_ayarlari'] = [
-            'url' => 'auth/ayarlar.php',
-            'icon' => 'fas fa-user-cog', 
-            'text' => 'Hesap Ayarları'
-          ];
-
-      }
-
-
+  include "menu_item.php" ;
 
       if (isset($additional_menu_items) && is_array($additional_menu_items)) {
          $menu_items = array_merge($menu_items, $additional_menu_items);

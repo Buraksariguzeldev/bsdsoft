@@ -1,14 +1,4 @@
-<?php include($_SERVER['DOCUMENT_ROOT'] . '/assets/src/include/navigasyon.php');
-if (!$kullanici_adi): ?>
 
-      
-
-<a href="../auth/login.php" class="btn btn-link text-decoration-none">
-    İçerikleri görmek için giriş yapın
-</a>
-     
-     
-         <?php else: ?>
 
 <?php
 
@@ -94,4 +84,3 @@ exit;
 
 ?>
 
-    <?php endif; ?>

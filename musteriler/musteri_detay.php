@@ -1,3 +1,5 @@
+
+
 <?php
 include($_SERVER['DOCUMENT_ROOT'] . '/assets/src/include/navigasyon.php');
 // Hata ayıklama modu
@@ -113,34 +115,82 @@ $transactions = $transactions_query->fetchAll(PDO::FETCH_ASSOC);
 
    <!-- OdÖdeme formu -->
 
-   <form action="odeme_yap.php" method="POST" class="mb-3">
-      <input type="hidden" name="customer_id" value="<?= $customer_id ?>">
-
-
-      <div class="p-3 bg-secondary ">
-         <label for="amount" class="form-label"> <i class="bi bi-currency-exchange"></i>Tutar:
-         </label>
-
-         <input type="number" name="amount" id="amount" class="form-control" step="0.01" required>
-      </div>
-      <hr>
-      <div class="bg-secondary ">
-         <div class="p-3">
-            <label for="description" class="form-label"><i class="bi bi-card-text"></i>Açıklama:</label>
+<form id="odemeFormu" class="mb-3">
+    <input type="hidden" name="customer_id" value="<?= $customer_id ?>">
+    <div class="p-3 bg-secondary ">
+        <label for="amount" class="form-label">
+            <i class="bi bi-currency-exchange"></i>Tutar:
+        </label>
+        <input type="number" name="amount" id="amount" class="form-control" step="0.01" required>
+    </div>
+    <hr>
+    <div class="bg-secondary ">
+        <div class="p-3">
+            <label for="description" class="form-label">
+                <i class="bi bi-card-text"></i>Açıklama:
+            </label>
             <input type="text" name="description" id="description" class="form-control">
-         </div>
-      </div>
-      <br>
+        </div>
+    </div>
+    <br>
+    <button type="button" class="bg-secondary w-100" onclick="document.getElementById('amount').value = <?= $totalDebt ?>;">
+        <i class="fas fa-coins"></i> Tümünü Öde
+    </button>
+    <hr>
+    <button type="submit" class="btn btn-secondary w-100">
+        <i class="fas fa-paper-plane"></i> Gönder
+    </button>
+    <div id="sonucMesaji" class="mt-3"></div>
+</form>
 
+<script>
+document.getElementById('odemeFormu').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(this);
+    
+    fetch('odeme_yap.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.text())
+    .then(data => {
+        const sonucDiv = document.getElementById('sonucMesaji');
+        sonucDiv.innerHTML = `
+            <div class="alert ${data.includes('başarıyla') ? 'alert-success' : 'alert-danger'}">
+                ${data}
+            </div>
+        `;
+        
+        // 3 saniye sonra mesajı sil
+        setTimeout(() => {
+            sonucDiv.innerHTML = '';
+        }, 3000);
 
-      <button type="button" class=" bg-secondary w-100 " onclick="document.getElementById('amount').value = <?= $totalDebt ?>;">
-         <i class="fas fa-coins"></i> Tümünü Öde
-      </button>
-      <hr>
-      <button type="submit" class="btn btn-secondary w-100"><i class="fas fa-paper-plane"></i> Gönder</button>
-      <br>
+        if (data.includes('başarıyla')) {
+            // Başarılı ödemeden sonra formu sıfırla
+            document.getElementById('odemeFormu').reset();
+            // Sayfayı 3 saniye sonra yenile
+            setTimeout(() => {
+                location.reload();
+            }, 3000);
+        }
+    })
+    .catch(error => {
+        const sonucDiv = document.getElementById('sonucMesaji');
+        sonucDiv.innerHTML = `
+            <div class="alert alert-danger">
+                İşlem sırasında bir hata oluştu: ${error.message}
+            </div>
+        `;
+        // Hata mesajını da 3 saniye sonra sil
+        setTimeout(() => {
+            sonucDiv.innerHTML = '';
+        }, 3000);
+    });
+});
+</script>
 
-   </form>
 
    <h5>
       <i class="fas fa-list"></i> Satışlar ve Ödemeler</h5>

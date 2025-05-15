@@ -1,5 +1,8 @@
 <?php
-// Daha önce tanımlandı mı kontrol et
+// ROOT ve PATH tanımları
+if (!defined('ROOT')) {
+    define('ROOT', $_SERVER['DOCUMENT_ROOT']);
+}
 if (!function_exists('site_url')) {
     function site_url($yol = '') {
         $server_name = $_SERVER['SERVER_NAME'];
@@ -7,5 +10,9 @@ if (!function_exists('site_url')) {
         return $base_url . ltrim($yol, '/');
     }
 }
+if (!function_exists('dosya_yolu')) {
+    function dosya_yolu($yol = '') {
+        return rtrim(ROOT, '/') . '/' . ltrim($yol, '/');
+    }
+}
 ?>
-
