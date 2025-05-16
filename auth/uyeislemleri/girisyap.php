@@ -84,8 +84,6 @@ include('../../assets/src/include/navigasyon.php');
 
       echo('<hr>');
 
-      echo "Script Name: " . $script_name . "<br>";
-      echo "Full URI: " . $full_uri . "<br>";
  include '../../assets/src/code/button.php';
 ?>
 </form>
