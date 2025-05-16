@@ -17,12 +17,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Basic validation (can be expanded)
     if (empty($email) || empty($new_password) || empty($confirm_password)) {
-        $error = 'Lütfen tüm alanları doldurun.';
+        $error = 'Lütfen kullanıcı adı/e-posta ve yeni şifre alanlarını doldurun.';
     } elseif ($new_password !== $confirm_password) {
         $error = 'Yeni şifreler uyuşmuyor.';
     } else {
-        // **TEMPORARY DIRECT PASSWORD CHANGE LOGIC**
-        // In a real application, this would trigger an email with a reset link.
+        // **TEMPORARY DIRECT PASSWORD CHANGE LOGIC (USING USERNAME FOR NOW)**
+        // In a real application, this would typically involve finding the user by email and sending a reset link.
         // This is a simplified example for direct change for now.
 
         try {
@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             if ($user) {
                 // Hash the new password
-                $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
+                $hashed_password = password_hash($new_password, PASSWORD_BCRYPT); // Use BCRYPT for stronger hashing
 
                 // Update the user's password
                 $stmt = $vt->prepare("UPDATE users SET password = :password WHERE id = :id");
@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                  // exit;
 
             } else {
-                $error = 'Bu e-posta adresiyle eşleşen bir kullanıcı bulunamadı.';
+                $error = 'Bu kullanıcı adı/e-posta ile eşleşen bir kullanıcı bulunamadı.';
             }
         } catch (PDOException $e) {
             $error = 'Bir hata oluştu: ' . $e->getMessage();
@@ -82,8 +82,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                         <form method="post">
                             <div class="mb-3">
-                                <label for="email" class="form-label"><i class="bi bi-envelope"></i> E-posta Adresiniz:</label>
-                                <input type="email" class="form-control" id="email" name="email" required>
+                                <label for="username_or_email" class="form-label"><i class="bi bi-person"></i> Kullanıcı Adınız veya E-posta Adresiniz:</label>
+                                <input type="text" class="form-control" id="username_or_email" name="username_or_email" required>
                             </div>
 
                             <!-- TEMPORARY FIELDS FOR DIRECT PASSWORD CHANGE -->
