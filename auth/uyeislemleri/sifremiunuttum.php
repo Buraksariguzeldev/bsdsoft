@@ -12,14 +12,13 @@ $error = '';
 // Check if form is submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username_or_email = $_POST['username_or_email'] ?? '';
-    $new_password = $_POST['new_password'] ?? ''; // Added for direct change
-    $confirm_password = $_POST['confirm_password'] ?? ''; // Added for direct change
+    $new_password = $_POST['new_password'] ?? '';
 
     // Basic validation (can be expanded)
-    if (empty($email) || empty($new_password) || empty($confirm_password)) {
+    if (empty($username_or_email) || empty($new_password)) {
         $error = 'Lütfen kullanıcı adı/e-posta ve yeni şifre alanlarını doldurun.';
-    } elseif ($new_password !== $confirm_password) {
-        $error = 'Yeni şifreler uyuşmuyor.';
+    } else {
+        // **TEMPORARY DIRECT PASSWORD CHANGE LOGIC (USING USERNAME FOR NOW)**
     } else {
         // **TEMPORARY DIRECT PASSWORD CHANGE LOGIC (USING USERNAME FOR NOW)**
         // In a real application, this would typically involve finding the user by email and sending a reset link.
@@ -27,8 +26,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         try {
             // Find the user by username (since email column doesn't exist in users table based on schema.sql)
-            $stmt = $vt->prepare("SELECT id FROM users WHERE username = :email"); // Keep :email placeholder for now, but it's username
-            $stmt->execute([':email' => $email]);
+            $stmt = $vt->prepare("SELECT id FROM users WHERE username = :username");
+            $stmt->execute([':username' => $username_or_email]);
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
             if ($user) {
@@ -91,12 +90,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <label for="new_password" class="form-label"><i class="bi bi-lock"></i> Yeni Şifre:</label>
                                 <input type="password" class="form-control" id="new_password" name="new_password" required>
                             </div>
-                             <div class="mb-3">
-                                <label for="confirm_password" class="form-label"><i class="bi bi-lock-fill"></i> Yeni Şifre Tekrar:</label>
-                                <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
-                            </div>
-                            <!-- END TEMPORARY FIELDS -->
-
                             <button type="submit" class="btn btn-primary">Şifremi Güncelle</button>
                         </form>
                          <div class="text-center mt-3">
