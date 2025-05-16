@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = 'Geçersiz kullanıcı adı veya şifre!';
     }
 }
-include($_SERVER['DOCUMENT_ROOT'] . '/assets/src/include/navigasyon.php');
+include('../../assets/src/include/navigasyon.php');
 ?>
 
 <!DOCTYPE html>
@@ -84,8 +84,7 @@ include($_SERVER['DOCUMENT_ROOT'] . '/assets/src/include/navigasyon.php');
 
       echo('<hr>');
 
-      include $_SERVER["DOCUMENT_ROOT"] .
-      "/assets/src/code/button.php";
+ include '../../assets/src/code/button.php';
 ?>
 </form>
 
@@ -95,6 +94,6 @@ include($_SERVER['DOCUMENT_ROOT'] . '/assets/src/include/navigasyon.php');
         </div>
     </div>
 </div>
-<?php include $_SERVER["DOCUMENT_ROOT"] . "/assets/src/include/footer.php"; ?>
+<?php include '../../assets/src/include/footer.php'; ?>
 </body>
 </html>
