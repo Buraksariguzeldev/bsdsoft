@@ -19,8 +19,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = 'Lütfen kullanıcı adı/e-posta ve yeni şifre alanlarını doldurun.';
     } else {
         // **TEMPORARY DIRECT PASSWORD CHANGE LOGIC (USING USERNAME FOR NOW)**
-    } else {
-        // **TEMPORARY DIRECT PASSWORD CHANGE LOGIC (USING USERNAME FOR NOW)**
         // In a real application, this would typically involve finding the user by email and sending a reset link.
         // This is a simplified example for direct change for now.
 
