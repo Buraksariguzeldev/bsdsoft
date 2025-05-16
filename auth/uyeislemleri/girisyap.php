@@ -1,4 +1,6 @@
 <?php
+echo "Giriş sayfası çalışıyor!";
+
 // Hata raporlama ayarları
 ini_set('display_errors', 1);
 ini_set('log_errors', 1);
@@ -12,7 +14,7 @@ if (!isset($_SESSION['return_to'])) {
 }
 
 try {
-    include($_SERVER['DOCUMENT_ROOT'] . '/assets/src/config/vt_baglanti.php'); // PDO bağlantısını içe aktar
+    include('../../assets/src/config/vt_baglanti.php'); // PDO bağlantısını içe aktar
     $vt->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
     die("Veritabanına bağlanılamadı: " . $e->getMessage());
