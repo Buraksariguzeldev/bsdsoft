@@ -1,8 +1,13 @@
 <?php
-include($_SERVER['DOCUMENT_ROOT'] .'/assets/src/php/kullanici_adi.php');
+include('../php/kullanici_adi.php');
+
+// Ensure $kullanici_adi is defined
+if (!isset($kullanici_adi)) {
+    $kullanici_adi = ''; // or null, depending on how you want to handle it
+}
 
 include 'siteurl.php';
-include_once($_SERVER['DOCUMENT_ROOT'] . '/assets/src/include/musterifont.php');
+include_once('musterifont.php');
 include 'header.php';
 include 'styles.php';
 include 'fontheader.php';
@@ -29,7 +34,7 @@ include 'degisken.php' ;
       </div>
 
       <div class="bsd-right-section">
-         <?php if (!$kullanici_adi): ?>
+         <?php if (empty($kullanici_adi)): ?>
          <a href="<?php echo site_url('auth/uyeislemleri/girisyap.php'); ?>" class="bsd-login-icon"><i class="fas fa-user"></i></a>
          <?php else : ?>
          <a href="<?php echo site_url('auth/uyeislemleri/cikisyap.php'); ?>" class="bsd-logout-icon"><i class="fas fa-sign-out-alt"></i></a>
@@ -49,7 +54,7 @@ include 'degisken.php' ;
 
 
 
-      <?php if ($kullanici_adi): ?>
+      <?php if (!empty($kullanici_adi)): ?>
       <div class="bsd-welcome">
          Hoş geldiniz,
          <span class="bsd-hys-kullanici-adi" style="color: <?= isset($kullanici_color) ? $kullanici_color : 'inherit' ?>;">
@@ -63,7 +68,7 @@ include 'degisken.php' ;
 
       <?php endif; ?>
 
-      <?php
+<?php
       $kullanici_adi = isset($kullanici_adi) ? $kullanici_adi : '';
       $current_page = isset($current_page) ? $current_page : 'ana_sayfa';
 
@@ -116,7 +121,7 @@ if (
     strpos($path, '/out/') === false &&
     basename($path) !== 'index.php'
 ) {
-    include($_SERVER['DOCUMENT_ROOT'] . '/assets/src/include/giriskontrol.php');
+    include('giriskontrol.php');
 }
 ?>
 
