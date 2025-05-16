@@ -1,4 +1,6 @@
 <?php
+print_r($_SERVER);
+
 echo "Giriş sayfası çalışıyor!";
 
 // Hata raporlama ayarları
