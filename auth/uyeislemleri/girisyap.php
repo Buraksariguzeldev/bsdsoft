@@ -92,6 +92,7 @@ include('../../assets/src/include/navigasyon.php');
 
             <div class="text-center mt-3">
                 <a href="kayitol.php" class="btn btn-link p-0">Kayıt Ol</a>
+ <a href="sifremiunuttum.php" class="btn btn-link p-0">Şifremi unuttum</a>
             </div>
         </div>
     </div>
