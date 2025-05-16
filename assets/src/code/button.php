@@ -1,5 +1,5 @@
 <?php
-require_once $_SERVER["DOCUMENT_ROOT"] . "/assets/src/code/buttons.php"; // Buton dizisini al
+require_once __DIR__ . "/buttons.php"; // Buton dizisini al
 
 // Sayfa adını al
 $script_name = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);

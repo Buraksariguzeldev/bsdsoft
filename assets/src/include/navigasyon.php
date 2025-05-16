@@ -1,5 +1,5 @@
 <?php
-include('../php/kullanici_adi.php');
+include(__DIR__ . '/../php/kullanici_adi.php');
 
 // Ensure $kullanici_adi is defined
 if (!isset($kullanici_adi)) {
@@ -7,7 +7,7 @@ if (!isset($kullanici_adi)) {
 }
 
 include 'siteurl.php';
-include_once('musterifont.php');
+include_once(__DIR__ . '/musterifont.php');
 include 'header.php';
 include 'styles.php';
 include 'fontheader.php';
