@@ -25,6 +25,11 @@ if (empty($buttons_for_page)) {
     }, ARRAY_FILTER_USE_KEY));
 }
 
+// Eşleşen butonları kontrol et
+echo "Buttons for page: <br>";
+print_r($buttons_for_page);
+echo "<br>";
+
 // Şu anki index ile ilgili buton var mı?
 if (!empty($buttons_for_page) && isset($buttons_for_page[$button_index[$full_uri]])) {
     $button = $buttons_for_page[$button_index[$full_uri]];
