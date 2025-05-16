@@ -11,7 +11,7 @@ $error = '';
 
 // Check if form is submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $email = $_POST['email'] ?? '';
+    $username_or_email = $_POST['username_or_email'] ?? '';
     $new_password = $_POST['new_password'] ?? ''; // Added for direct change
     $confirm_password = $_POST['confirm_password'] ?? ''; // Added for direct change
 
@@ -26,8 +26,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // This is a simplified example for direct change for now.
 
         try {
-            // Find the user by email
-            $stmt = $vt->prepare("SELECT id FROM users WHERE email = :email");
+            // Find the user by username (since email column doesn't exist in users table based on schema.sql)
+            $stmt = $vt->prepare("SELECT id FROM users WHERE username = :email"); // Keep :email placeholder for now, but it's username
             $stmt->execute([':email' => $email]);
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
