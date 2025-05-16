@@ -5,6 +5,15 @@ require_once __DIR__ . "/buttons.php"; // Buton dizisini al
 $script_name = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $full_uri = $_SERVER['REQUEST_URI']; // Tam URI (parametrelerle birlikte)
 
+// Proje ana dizinini belirle (eğer varsa)
+$base_directory = '/bsdsoftgit'; // Burayı kendi proje dizin adınızla değiştirin
+
+// URL'nin başındaki ana dizini kaldır
+if (strpos($script_name, $base_directory) === 0) {
+    $script_name = substr($script_name, strlen($base_directory));
+    $full_uri = substr($full_uri, strlen($base_directory));
+}
+
 // Buton indexini takip eden statik değişken
 static $button_index = [];
 
