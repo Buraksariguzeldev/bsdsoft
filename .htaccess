@@ -39,3 +39,6 @@ RewriteEngine On
 # Sadece vt_baglanti.php dosyasına erişimi engelle ve 404.php'ye yönlendir
 RewriteCond %{REQUEST_URI} ^/assets/src/config/vt_baglanti\.php$ [NC]
 RewriteRule .* /404.php [R=404,L]
+
+RewriteEngine On
+

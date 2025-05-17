@@ -68,7 +68,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // Giriş kontrolü
-include($_SERVER['DOCUMENT_ROOT'] . '/assets/src/include/navigasyon.php');
+$projectRoot = dirname(__DIR__, 2); // 2 üst klasöre çık (htdocs'a gel)
+include($projectRoot . '/bsdsoft/assets/src/include/navigasyon.php');
 ?>
 
 <!DOCTYPE html>

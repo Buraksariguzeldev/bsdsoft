@@ -1,4 +1,7 @@
 <?php
+
+include 'assets/src/config/head.php';
+
 include_once('assets/src/include/navigasyon.php');
 
 // Kök dizini belirle
@@ -86,3 +89,5 @@ function filterList() {
 
 </body>
 </html>
+
+!

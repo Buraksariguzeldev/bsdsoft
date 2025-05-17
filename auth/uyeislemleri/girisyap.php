@@ -1,7 +1,5 @@
 <?php
-print_r($_SERVER);
 
-echo "Giriş sayfası çalışıyor!";
 
 // Hata raporlama ayarları
 ini_set('display_errors', 1);

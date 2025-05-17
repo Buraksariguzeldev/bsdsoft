@@ -1,4 +1,6 @@
 <?php
+
+session_start();
 // Kullanıcı girişi kontrolü
 if (isset($_SESSION["username"])) {
     $kullanici_adi = htmlspecialchars($_SESSION["username"]);
