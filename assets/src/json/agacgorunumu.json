@@ -1,0 +1,120 @@
+{
+    "0": ".htaccess",
+    "1": "access_log",
+    "assets": {
+        "src": {
+            "config": [
+                "vt_baglanti.php"
+            ],
+            "css": [
+                "main.css"
+            ],
+            "include": [
+                "navigasyon.php"
+            ],
+            "js": [
+                "camera.js",
+                "klavye.js",
+                "klavye1.js"
+            ],
+            "json": [
+                "agacgorunumu.json"
+            ],
+            "php": [
+                "camera.php",
+                "kullanici_adi.php",
+                "kullanicikontrol.log",
+                "return_to.php"
+            ],
+            "vt_durum": [
+                "vt_durum.log"
+            ]
+        }
+    },
+    "auth": [
+        "login.php",
+        "logout.php",
+        "register.php"
+    ],
+    "2": "kasa_secimi.php",
+    "3": "satisi_tamamla.php",
+    "4": "musteri_satisi.php",
+    "5": "dashboard.php",
+    "6": "deneme.js",
+    "error": [
+        "404.php",
+        "500.php"
+    ],
+    "7": "kasa_bilgisi_getir.php",
+    "8": "hizlidosya.php",
+    "img": [
+        "bsd_soft (2).png",
+        "bsd_soft.png"
+    ],
+    "9": "incdegistir.php",
+    "10": "index.php",
+    "kasa_yonetim": [
+        "kasa_duzenle.php",
+        "kasa_ekle.php",
+        "kasa_sil.php",
+        "kasa_listesi.php"
+    ],
+    "koru": [],
+    "marka": [
+        "marka_ekle.php",
+        "marka_sil.php",
+        "marka_duzenle.php",
+        "marka_listesi.php"
+    ],
+    "modules": {
+        "custom": [],
+        "data": [
+            "agacgorunumu.php",
+            "data.php",
+            "disk_kullanimi.php",
+            "enbuyukenkucuk.php",
+            "klasorsayisi.php",
+            "liste.php"
+        ],
+        "0": "modules.php"
+    },
+    "m\u00fc\u015fteriler": [
+        "musteri_ekle.php",
+        "musteri_sil.php",
+        "musteri_duzenle.php",
+        "musteri_detay.php",
+        "musteri_ozet.php",
+        "m\u00fc\u015fteriler.php",
+        "odeme_yap.php",
+        "satis_detay_getir.php",
+        "view_customers.php"
+    ],
+    "11": "satis_paneli.php",
+    "12": "satis_ekrani.php",
+    "satislar": [
+        "satis_detaylari.php",
+        "satis_listesi.php",
+        "satis_raporu.php",
+        "satis_takip.php"
+    ],
+    "13": "musteri_kaydet.php",
+    "uploads": [
+        "ekmek.png"
+    ],
+    "urun_gruplari": [
+        "urun_grubu_ekle.php",
+        "urun_grubu_sil.php",
+        "urun_grubu_duzenle.php",
+        "urun_grubu_listesi.php"
+    ],
+    "urunler": [
+        "urun_ekle.php",
+        "urun_sil.php",
+        "urun_duzenle.php",
+        "görsel_yonetimi.php",
+        "urun_navigasyon_guncelle.php",
+        "urun_raporlari.php",
+        "hizli_fiyat_guncelle.php",
+        "urun_listesi.php"
+    ]
+}

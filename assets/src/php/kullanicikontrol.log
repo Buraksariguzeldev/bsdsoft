@@ -1,0 +1,19 @@
+       <?php if (!$kullanici_adi): ?>
+
+      
+
+<a href="../auth/login.php" class="btn btn-link text-decoration-none">
+    İçerikleri görmek için giriş yapın
+</a>
+     
+     
+         <?php else: ?>
+ 
+ 
+ 
+    <?php endif; ?>
+    
+    
+     
+    <div class="container mt-5">
+        <h1 class="mb-4"><i class="fas fa-users"></i> Müşteriler</h1>
